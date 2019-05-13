@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 let state = {
     ProfilePage: {
 
@@ -51,6 +53,7 @@ export let addPost = (postMassege) => {
     };
 
     state.ProfilePage.Posts.push(newPost);
+    rerenderEntireTree(state);
 
 }
 
