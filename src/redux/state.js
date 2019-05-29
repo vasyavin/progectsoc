@@ -1,12 +1,14 @@
 import {rerenderEntireTree} from "../render";
 
 let state = {
+
     ProfilePage: {
 
         Posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: '0'},
             {id: 2, message: 'It\'s my first post', likesCount: '23'}
-        ]
+        ],
+        newPostText: 'Input you text'
 
     },
 
@@ -45,16 +47,29 @@ let state = {
     }
 }
 
-export let addPost = (postMassege) => {
+
+window.state = state;
+
+
+export let addPost = () => {
     let newPost = {
         id: 3,
-        message: postMassege,
+        message: state.ProfilePage.newPostText,
         likesCount: 0
     };
 
     state.ProfilePage.Posts.push(newPost);
+    state.ProfilePage.newPostText = ('');
     rerenderEntireTree(state);
 
 }
+
+export let updateNewPostText = (newText) => {
+
+    state.ProfilePage.newPostText = newText;
+    rerenderEntireTree(state);
+
+}
+
 
 export default state;
