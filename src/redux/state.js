@@ -27,7 +27,10 @@ let store = {
                     id: 3,
                     img: 'https://zabavnik.club/wp-content/uploads/2018/05/Kartinki_na_avu_dlya_pacanov_2_14075531.jpg'
                 },
-                {id: 4, img: 'https://zabavnik.club/wp-content/uploads/2018/05/Kartinki_na_avu_dlya_pacanov_2_14075531.jpg'}
+                {
+                    id: 4,
+                    img: 'https://zabavnik.club/wp-content/uploads/2018/05/Kartinki_na_avu_dlya_pacanov_2_14075531.jpg'
+                }
             ],
 
             dialogs: [
@@ -45,24 +48,18 @@ let store = {
             ]
         }
     },
-    getState() {
-        return this._state;
-    },
-    addPost() {
-        let newPost = {
-            id: 3,
-            message: this._state.ProfilePage.newPostText,
-            likesCount: 0
-        };
-
-        this._state.ProfilePage.Posts.push(newPost);
-        this._state.ProfilePage.newPostText = ('');
-        this._callSubscriber(this._state);
-
-    },
     _callSubscriber() {
         console.log('input you text');
     },
+
+    getState() {
+        return this._state;
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer;
+
+    },
+
     addPost() {
         let newPost = {
             id: 3,
@@ -81,9 +78,21 @@ let store = {
         this._callSubscriber(this._state);
 
     },
-    subscribe(observer) {
-        this._callSubscriber = observer;
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: 3,
+                message: this._state.ProfilePage.newPostText,
+                likesCount: 0
+            };
 
+            this._state.ProfilePage.Posts.push(newPost);
+            this._state.ProfilePage.newPostText = ('');
+            this._callSubscriber(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.ProfilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        }
     }
 }
 
