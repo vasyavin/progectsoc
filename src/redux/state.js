@@ -1,5 +1,7 @@
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const SEND_MASSAGE = 'SEND_MASSAGE';
+const UPDATE_NEW_MASSAGE_BODY = 'UPDATE_NEW_MASSAGE_BODY';
 
 let store = {
     _state: {
@@ -48,7 +50,8 @@ let store = {
                 {id: 2, massage: 'How are you?'},
                 {id: 3, massage: 'Good'},
                 {id: 4, massage: 'Good luck'}
-            ]
+            ],
+            newMassageBody: ""
         }
     },
     _callSubscriber() {
@@ -95,6 +98,14 @@ let store = {
         } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.ProfilePage.newPostText = action.newText;
             this._callSubscriber(this._state);
+        }else if (action.type === UPDATE_NEW_MASSAGE_BODY) {
+            this._state.DialogsPage.newMassageBody = action.body;
+            this._callSubscriber(this._state);
+        }else if (action.type === SEND_MASSAGE) {
+           let body = this._state.DialogsPage.newMassageBody;
+            this._state.DialogsPage.newMassageBody = '';
+            this._state.DialogsPage.Massages.push({id: 4, massage: body});
+            this._callSubscriber(this._state);
         }
     }
 }
@@ -105,6 +116,14 @@ export const addPostActionCreator = () => {
 
 export const onPostChangeActionCreator = (text) => {
     return {type: UPDATE_NEW_POST_TEXT, newText: text}
+}
+
+export const addSendMassegeCreator = () => {
+    return {type: SEND_MASSAGE};
+}
+
+export const UpdeteNewMassegeBodyCreator = (body) => {
+    return {type: UPDATE_NEW_MASSAGE_BODY, body: body}
 }
 
 window.store = store;
