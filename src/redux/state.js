@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const SEND_MASSAGE = 'SEND_MASSAGE';
-const UPDATE_NEW_MASSAGE_BODY = 'UPDATE_NEW_MASSAGE_BODY';
+import profileReducer from "./profile-reducer";
+import dialogReducer from "./dialogs-reducer";
+import SidebarReducer from "./sidebar-reduser";
 
 let store = {
     _state: {
@@ -52,7 +51,9 @@ let store = {
                 {id: 4, massage: 'Good luck'}
             ],
             newMassageBody: ""
-        }
+        },
+
+        Sidebar: {}
     },
     _callSubscriber() {
         console.log('input you text');
@@ -85,45 +86,13 @@ let store = {
 
     },
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            let newPost = {
-                id: 3,
-                message: this._state.ProfilePage.newPostText,
-                likesCount: 0
-            };
 
-            this._state.ProfilePage.Posts.push(newPost);
-            this._state.ProfilePage.newPostText = ('');
-            this._callSubscriber(this._state);
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.ProfilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        }else if (action.type === UPDATE_NEW_MASSAGE_BODY) {
-            this._state.DialogsPage.newMassageBody = action.body;
-            this._callSubscriber(this._state);
-        }else if (action.type === SEND_MASSAGE) {
-           let body = this._state.DialogsPage.newMassageBody;
-            this._state.DialogsPage.newMassageBody = '';
-            this._state.DialogsPage.Massages.push({id: 4, massage: body});
-            this._callSubscriber(this._state);
-        }
+        this._state.ProfilePage = profileReducer(this._state.ProfilePage, action);
+        this._state.DialogsPage = dialogReducer(this._state.DialogsPage, action);
+        this._state.Sidebar = SidebarReducer(this._state.SidebarPage, action);
+
+        this._callSubscriber(this._state);
     }
-}
-
-export const addPostActionCreator = () => {
-    return {type: ADD_POST};
-}
-
-export const onPostChangeActionCreator = (text) => {
-    return {type: UPDATE_NEW_POST_TEXT, newText: text}
-}
-
-export const addSendMassegeCreator = () => {
-    return {type: SEND_MASSAGE};
-}
-
-export const UpdeteNewMassegeBodyCreator = (body) => {
-    return {type: UPDATE_NEW_MASSAGE_BODY, body: body}
 }
 
 window.store = store;

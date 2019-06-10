@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import DialogsItem from "./DialogsItem/DialogsItem";
 import Message from "./Message/Message";
 import Logo from "./Logo/Logo"
-import {addSendMassegeCreator, UpdeteNewMassegeBodyCreator} from "../../redux/state";
+import {addSendMassegeCreator, UpdeteNewMassegeBodyCreator} from "../../redux/dialogs-reducer";
 
 
 
