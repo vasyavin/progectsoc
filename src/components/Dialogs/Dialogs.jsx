@@ -11,15 +11,16 @@ import {addSendMassegeCreator, UpdeteNewMassegeBodyCreator} from "../../redux/di
 
 
 const Dialogs = (props) => {
+    debugger
 
-    let state = props.store.getState().DialogsPage;
+    //let state = props.store.getState().DialogsPage;
 
-    let DialogsElements = state.dialogs
+    let DialogsElements = props.store.state.dialogs
         .map( d => <DialogsItem name={d.name} id={d.id} /> );
 
-    let massagesElements = state.Massages
+    let massagesElements = props.store.state.Massages
         .map( m => <Message massage={m.massage} id={m.id}/>)
-    let LogoDialogs = state.imageProfile
+    let LogoDialogs = props.store.state.imageProfile
         .map( n => <Logo img={n.img}/>)
 
     let newDialogElement = React.createRef();
@@ -28,7 +29,7 @@ const Dialogs = (props) => {
         props.store.dispatch(addSendMassegeCreator());
     }
 
-    let newMassageBody = state.newMassageBody;
+    let newMassageBody = props.store.state.newMassageBody;
 
     let onNewMessageChange = (e) => {
         let body = e.target.value;
